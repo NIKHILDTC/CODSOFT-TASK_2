@@ -1,0 +1,49 @@
+import tkinter as tk
+
+def evaluate_expression():
+    try:
+        result = eval(entry.get())
+        result_label.config(text="Result: " + str(result))
+    except Exception as e:
+        result_label.config(text="Error")
+
+def clear_entry():
+    entry.delete(0, tk.END)
+    result_label.config(text="Result: ")
+
+# Create the main window
+window = tk.Tk()
+window.title("Advanced Calculator")
+
+# Entry widget for user input
+entry = tk.Entry(window, width=30)
+entry.grid(row=0, column=0, columnspan=4)
+
+# Result label
+result_label = tk.Label(window, text="Result: ")
+result_label.grid(row=1, column=0, columnspan=4)
+
+# Buttons for digits and operators
+buttons = [
+    '7', '8', '9', '/',
+    '4', '5', '6', '*',
+    '1', '2', '3', '-',
+    '0', '.', '=', '+'
+]
+
+row, col = 2, 0
+for button_text in buttons:
+    tk.Button(window, text=button_text, width=5, command=lambda text=button_text: entry.insert(tk.END, text)).grid(row=row, column=col)
+    col += 1
+    if col > 3:
+        col = 0
+        row += 1
+
+# Clear button
+tk.Button(window, text="C", width=5, command=clear_entry).grid(row=6, column=0, columnspan=4)
+
+# Evaluate button
+tk.Button(window, text="Evaluate", width=20, command=evaluate_expression).grid(row=7, column=0, columnspan=4)
+
+# Run the GUI main loop
+window.mainloop()
